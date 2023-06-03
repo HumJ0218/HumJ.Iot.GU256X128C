@@ -1,6 +1,6 @@
 ﻿namespace HumJ.Iot.GU256X128C
 {
-    public enum FontSizeSelect : byte
+    public enum FontSize : byte
     {
         Font_6x8 = 1,
         Font_8x16 = 2,

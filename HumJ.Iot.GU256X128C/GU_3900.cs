@@ -1,9 +1,11 @@
-﻿using System.IO.Ports;
+﻿using System.Collections.Generic;
+using System.IO.Ports;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace HumJ.Iot.GU256X128C
 {
-    public class GU_3900
+    public partial class GU_3900
     {
         public const int DefaultBaudRate = 38400;
         public const int DefaultDataBits = 8;
@@ -57,7 +59,7 @@ namespace HumJ.Iot.GU256X128C
             WriteBytes(new byte[] { 0x09 });
         }
 
-        public virtual void LineDeed()
+        public virtual void LineFeed()
         {
             WriteBytes(new byte[] { 0x0A });
         }
@@ -77,7 +79,7 @@ namespace HumJ.Iot.GU256X128C
             WriteBytes(new byte[] { 0x0C });
         }
 
-        public virtual void BrightnessLevelSetting(BrightnessLevelSetting n)
+        public virtual void BrightnessLevelSetting(BrightnessLevel n)
         {
             WriteBytes(new byte[] { 0x1F, 0x58, (byte)n });
         }
@@ -97,24 +99,24 @@ namespace HumJ.Iot.GU256X128C
             WriteBytes(new byte[] { 0x1F, 0x24, xL, xH, yL, yH });
         }
 
-        public virtual void CursorDisplay(byte n)
+        public virtual void CursorDisplay(CursorDisplay n)
         {
-            WriteBytes(new byte[] { 0x1F, 0x43, n });
+            WriteBytes(new byte[] { 0x1F, 0x43,(byte) n });
         }
 
-        public virtual void WriteScreenModeSelect(byte a)
+        public virtual void WriteScreenModeSelect(WriteScreenMode a)
         {
-            WriteBytes(new byte[] { 0x1F, 0x28, 0x77, 0x10, a });
+            WriteBytes(new byte[] { 0x1F, 0x28, 0x77, 0x10, (byte)a });
         }
 
-        public virtual void InternationalFontSet(byte n)
+        public virtual void InternationalFontSet(FontSet n)
         {
-            WriteBytes(new byte[] { 0x1B, 0x52, n });
+            WriteBytes(new byte[] { 0x1B, 0x52, (byte)n });
         }
 
-        public virtual void CharacterTableType(byte n)
+        public virtual void CharacterTableType(FontCodeType n)
         {
-            WriteBytes(new byte[] { 0x1B, 0x74, n });
+            WriteBytes(new byte[] { 0x1B, 0x74, (byte)n });
         }
 
         public virtual void OverwriteMode()
@@ -137,17 +139,17 @@ namespace HumJ.Iot.GU256X128C
             WriteBytes(new byte[] { 0x1F, 0x73, n });
         }
 
-        public virtual void FontSizeSelect(FontSizeSelect m)
+        public virtual void FontSizeSelect(FontSize m)
         {
             WriteBytes(new byte[] { 0x1F, 0x28, 0x67, 0x01, (byte)m });
         }
 
-        public virtual void TwoByteCharacter(TwoByteCharacter m)
+        public virtual void TwoByteCharacter(bool enabled)
         {
-            WriteBytes(new byte[] { 0x1F, 0x28, 0x67, 0x02, (byte)m });
+            WriteBytes(new byte[] { 0x1F, 0x28, 0x67, 0x02, (byte)(enabled?1:0) });
         }
 
-        public virtual void TwoByteCharacterType(TwoByteCharacterType m)
+        public virtual void TwoByteCharacterType(CodeType m)
         {
             WriteBytes(new byte[] { 0x1F, 0x28, 0x67, 0x03, (byte)m });
         }
@@ -340,12 +342,12 @@ namespace HumJ.Iot.GU256X128C
             WriteBytes(new byte[] { 0x1B, 0x25, n });
         }
 
-        public virtual void DownloadCharacterDefinition(FontSizeSelect a, byte c1, byte c2, byte[] xn)
+        public virtual void DownloadCharacterDefinition(FontSize a, byte c1, byte c2, byte[] xn)
         {
             WriteBytes(new byte[] { 0x1B, 0x26, (byte)a, c1, c2 }.Concat(xn).ToArray());
         }
 
-        public virtual void DownloadCharacterDelete(FontSizeSelect a, byte c)
+        public virtual void DownloadCharacterDelete(FontSize a, byte c)
         {
             WriteBytes(new byte[] { 0x1B, 0x3F, (byte)a, c });
         }
@@ -370,17 +372,17 @@ namespace HumJ.Iot.GU256X128C
             WriteBytes(new byte[] { 0x1F, 0x28, 0x65, 0x21, (byte)a });
         }
 
-        public virtual void FRomUserFontDefintion(FontSizeSelect m, byte[] p)
+        public virtual void FRomUserFontDefintion(FontSize m, byte[] p)
         {
             WriteBytes(new byte[] { 0x1F, 0x28, 0x65, 0x13, (byte)m }.Concat(p).ToArray());
         }
 
-        public virtual void UserSetUpModeStart(FontSizeSelect m, byte[] p)
+        public virtual void UserSetUpModeStart(FontSize m, byte[] p)
         {
             WriteBytes(new byte[] { 0x1F, 0x28, 0x65, 0x01, 0x49, 0x4E });
         }
 
-        public virtual void UserSetUpModeEnd(FontSizeSelect m, byte[] p)
+        public virtual void UserSetUpModeEnd(FontSize m, byte[] p)
         {
             WriteBytes(new byte[] { 0x1F, 0x28, 0x65, 0x02, 0x4F, 0x55, 0x54 });
         }
@@ -440,50 +442,6 @@ namespace HumJ.Iot.GU256X128C
         {
             WriteBytes(new byte[] { 0x1C, 0x7C, 0x4D, 0xD0, 0x4D, 0x4F, 0x44, 0x45, 0x49, 0x4E });
         }
-
-        public byte[] DmaBitImageWrite(byte dad, int a, int s, byte[] dn)
-        {
-            var aL = (byte)(a >> 0);
-            var aH = (byte)(a >> 8);
-            var sL = (byte)(s >> 0);
-            var sH = (byte)(s >> 8);
-
-            var bytes = new byte[] { 0x02, 0x44, dad, 0x46, aL, aH, sL, sH }.Concat(dn).ToArray();
-            return bytes;
-        }
-
-        public byte[] DmaBoxAreaBitImageWrite(byte dad, int a, int sX, int sY, byte[] dn)
-        {
-            var aL = (byte)(a >> 0);
-            var aH = (byte)(a >> 8);
-            var sXL = (byte)(sX >> 0);
-            var sXH = (byte)(sX >> 8);
-            var sYL = (byte)(sY >> 0);
-            var sYH = (byte)(sY >> 8);
-
-            var bytes = new byte[] { 0x02, 0x44, dad, 0x42, aL, aH, sXL, sXH, sYL, sYH }.Concat(dn).ToArray();
-            return bytes;
-        }
-
-        public byte[] DmaDisplayStartAddress(byte dad, int a)
-        {
-            var aL = (byte)(a >> 0);
-            var aH = (byte)(a >> 8);
-
-            var bytes = new byte[] { 0x02, 0x44, dad, 0x53, aL, aH };
-            return bytes;
-        }
-
-        public byte[] DmaDisplaySynchronous(byte dad)
-        {
-            var bytes = new byte[] { 0x02, 0x44, dad, 0x57, 0x01 };
-            return bytes;
-        }
-
-        public byte[] DmaBrightnessLevel(byte dad, BrightnessLevelSetting n)
-        {
-            var bytes = new byte[] { 0x02, 0x44, dad, 0x58, (byte)n };
-            return bytes;
-        }
     }
+
 }

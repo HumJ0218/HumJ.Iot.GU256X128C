@@ -1,6 +1,6 @@
 ﻿namespace HumJ.Iot.GU256X128C
 {
-    public enum TwoByteCharacterType : byte
+    public enum CodeType : byte
     {
         Japanese = 0,
         Korean = 1,

@@ -8,11 +8,19 @@ namespace HumJ.Iot.GU256X128C
         {
         }
 
+        /// <summary>
+        /// Current line is cleared and cursor moves to left end of current line.
+        /// <para>This command has effect for the currently-selected window.</para>
+        /// </summary>
         public virtual void LineClear()
         {
             WriteBytes(new byte[] { 0x18 });
         }
 
+        /// <summary>
+        /// Current line is cleared from cursor position to end of line (right end).
+        /// <para>This command has effect for the currently-selected window.</para>
+        /// </summary>
         public virtual void LineEndClear()
         {
             WriteBytes(new byte[] { 0x19 });
@@ -148,21 +156,5 @@ namespace HumJ.Iot.GU256X128C
         {
             WriteBytes(new byte[] { 0x1F, 0x28, 0x69, 0x10, (byte)a, (byte)b });
         }
-    }
-    public enum Rs232SerialSettingsBaudrate : byte
-    {
-        // Baudrate19200 = 0,
-        Baudrate4800 = 1,
-        Baudrate9600 = 2,
-        Baudrate19200 = 3,
-        Baudrate38400 = 4,
-        Baudrate57600 = 5,
-        Baudrate115200 = 6,
-    }
-    public enum Rs232SerialSettingsParity : byte
-    {
-        None = 0,
-        Even = 1,
-        Odd = 2,
     }
 }
