@@ -5,7 +5,9 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HumJ.Iot.GU256X128C", "HumJ.Iot.GU256X128C\HumJ.Iot.GU256X128C.csproj", "{9E0F473E-033A-4D17-B440-AB025A058C57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{44EA0BB4-6A7F-442B-8FFE-8C703DA3C530}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{44EA0BB4-6A7F-442B-8FFE-8C703DA3C530}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestDMA", "TestDMA\TestDMA.csproj", "{BFB0F9F9-0A8B-4183-ABDB-DE8E5CD9ECAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{44EA0BB4-6A7F-442B-8FFE-8C703DA3C530}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44EA0BB4-6A7F-442B-8FFE-8C703DA3C530}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44EA0BB4-6A7F-442B-8FFE-8C703DA3C530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFB0F9F9-0A8B-4183-ABDB-DE8E5CD9ECAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFB0F9F9-0A8B-4183-ABDB-DE8E5CD9ECAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFB0F9F9-0A8B-4183-ABDB-DE8E5CD9ECAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFB0F9F9-0A8B-4183-ABDB-DE8E5CD9ECAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
