@@ -8,7 +8,7 @@
         /// <param name="dad">Display address</param>
         /// <param name="a">Bit image write address</param>
         /// <param name="dn">Bit image data</param>
-        public static byte[] BitImageWrite(byte dad, int a, byte[] dn)
+        public static byte[] BitImageWrite(byte dad, int a, Span<byte> dn)
         {
             var s = dn.Length;
 
@@ -17,7 +17,17 @@
             var sL = (byte)(s >> 0);
             var sH = (byte)(s >> 8);
 
-            var bytes = new byte[] { 0x02, 0x44, dad, 0x46, aL, aH, sL, sH }.Concat(dn).ToArray();
+            var bytes = new byte[8 + s];
+            bytes[0] = 0x02;
+            bytes[1] = 0x44;
+            bytes[2] = dad;
+            bytes[3] = 0x46;
+            bytes[4] = aL;
+            bytes[5] = aH;
+            bytes[6] = sL;
+            bytes[7] = sH;
+
+            dn.CopyTo(bytes.AsSpan(8));
             return bytes;
         }
 
